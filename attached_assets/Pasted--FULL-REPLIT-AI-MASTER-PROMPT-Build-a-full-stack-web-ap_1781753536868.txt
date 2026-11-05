@@ -1,0 +1,129 @@
+🚀 FULL REPLIT AI MASTER PROMPT
+
+Build a full-stack web application called “Memory AI Chat Assistant”.
+
+🎯 MAIN GOAL
+
+Create an AI chat application that:
+
+Lets users chat with an AI assistant
+Remembers important user information across conversations
+Uses stored memories to personalize future responses
+
+The key feature is persistent memory.
+
+🧠 CORE BEHAVIOR (VERY IMPORTANT)
+
+The system must do TWO things for every user message:
+
+1. Normal AI Response
+Respond like a helpful personal assistant using an AI model (OpenAI API or similar)
+2. Memory System (AUTOMATIC)
+
+After each user message:
+
+Extract important long-term information about the user
+Decide if it is worth saving as a memory
+Save it in a database
+
+Before generating each AI response:
+
+Fetch relevant past memories from the database
+Inject them into the AI prompt so the AI responds with context
+🧾 WHAT SHOULD BE SAVED AS MEMORY
+
+Only store useful facts like:
+
+User preferences
+User identity info (non-sensitive)
+Goals and interests
+Work or profession
+Style preferences
+
+Examples:
+
+“User is a graphic designer”
+“User prefers minimal design”
+“User is interested in AI tools”
+
+DO NOT store:
+
+Passwords
+Sensitive personal data
+Short casual messages
+🏗️ TECH STACK (KEEP SIMPLE)
+
+Use the simplest working setup:
+
+Frontend:
+HTML + CSS + JavaScript (or React if easier)
+Backend:
+Node.js with Express
+Database:
+SQLite OR Replit Database
+AI:
+OpenAI API (Chat Completions or Responses API)
+💬 UI REQUIREMENTS
+Simple chat interface like ChatGPT
+User message bubbles
+AI message bubbles
+Input box at bottom
+Scrollable chat history
+Optional: small indicator when memory is saved
+⚙️ MEMORY SYSTEM LOGIC
+Step 1: On user message
+
+Send message to backend
+
+Step 2: Retrieve memory
+
+Fetch all stored memories for that user
+
+Step 3: Generate AI response
+
+Send to AI:
+
+User message
+Relevant memories
+System instruction to behave like assistant
+Step 4: Memory extraction
+
+Use AI again (or same model) to decide:
+
+What should be stored as memory from this message?
+Step 5: Save memory
+
+Store extracted facts in database
+
+🔐 ENVIRONMENT VARIABLES REQUIRED
+
+The app must support:
+
+OPENAI_API_KEY
+DATABASE_URL (if needed)
+
+Ask me to provide these if missing.
+
+📦 EXPECTED OUTPUT
+
+A working web app where:
+
+Users can chat with AI
+AI remembers user information across sessions
+AI uses memory to personalize responses
+Data persists after refresh or restart
+⚠️ IMPORTANT RULES
+Keep the project simple and functional first
+Do not over-engineer UI or architecture
+Prioritize working memory system over design
+Ensure code is modular and readable
+🧪 SUCCESS CRITERIA
+
+The project is successful if:
+
+I say “I am a designer”
+Later AI remembers and uses that fact correctly
+Memory persists after refresh or new session
+🧑‍💻 NOTE FOR BUILDER (REPLIT AI)
+
+If anything is unclear, make reasonable assumptions and proceed. Build a minimal working version first.

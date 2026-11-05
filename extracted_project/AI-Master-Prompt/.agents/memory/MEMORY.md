@@ -1,0 +1,1 @@
+- [Gemini model choice](gemini-model.md) — gemini-2.5-flash is the working model for this project; earlier models hit quota/limit:0 errors with the user's key.

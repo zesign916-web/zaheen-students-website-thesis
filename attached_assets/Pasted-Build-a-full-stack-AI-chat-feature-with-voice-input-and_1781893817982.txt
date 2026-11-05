@@ -1,0 +1,111 @@
+Build a full-stack AI chat feature with voice input and text-to-speech output.
+
+Tech stack:
+
+* Frontend: Next.js (or React)
+* Backend: Node.js API routes
+* Database: Neon PostgreSQL using Drizzle ORM
+* Existing schema already has: users, conversations, messages
+
+---
+
+# 🎤 FEATURE REQUIREMENT: VOICE CHAT
+
+Add voice interaction to the existing chat system:
+
+## 1. Voice Input (Speech-to-Text)
+
+* Add a microphone button in chat UI
+* When user clicks it:
+
+  * Use browser SpeechRecognition API
+  * Convert speech → text
+  * Insert that text into the chat input box
+  * Send it as a normal message
+
+IMPORTANT:
+
+* Voice is ONLY an input method
+* The final message saved in DB must be plain text
+
+---
+
+## 2. Message Storage (UNCHANGED STRUCTURE)
+
+All messages must still be stored in:
+
+TABLE: messages
+
+* id
+* conversation_id
+* role (user / assistant)
+* content (TEXT ONLY)
+* created_at
+
+DO NOT create any new table for voice.
+
+Voice input must result in normal message insertion:
+INSERT INTO messages (conversation_id, role, content)
+
+---
+
+## 3. AI RESPONSE (TEXT)
+
+* After user message is sent:
+
+  * call AI model (existing system)
+  * get response as text
+  * store in messages table as assistant message
+
+---
+
+## 4. Voice Output (Text-to-Speech)
+
+After AI responds:
+
+* Use browser SpeechSynthesis API
+* Convert AI text response → spoken audio
+* Do NOT store audio anywhere
+* This is ONLY UI feature
+
+---
+
+## 5. UI REQUIREMENTS
+
+Chat UI must include:
+
+* microphone button (start/stop recording)
+* normal text input (still fully functional)
+* send button
+* AI messages shown normally
+
+Optional:
+
+* toggle “voice mode on/off”
+
+---
+
+## 6. BEHAVIOR RULES
+
+* Voice input MUST convert to text before sending
+* Database MUST only store text messages
+* No audio files stored anywhere
+* Conversations remain unchanged structure-wise
+* Sorting by updated_at must still work normally
+
+---
+
+## 7. FLOW
+
+User clicks mic → speaks
+SpeechRecognition → text
+Text → chat input
+Send message → DB
+AI responds → DB
+AI response → spoken using browser TTS
+
+---
+
+# GOAL
+
+Make ChatGPT-style voice chat feature where voice is just a convenience layer over normal text messaging system.

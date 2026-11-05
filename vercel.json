@@ -1,0 +1,14 @@
+{
+  "framework": null,
+  "buildCommand": "PORT=3000 BASE_PATH=/ pnpm --filter @workspace/chat-app run build && pnpm --filter @workspace/api-server run build",
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60
+    }
+  }
+}
