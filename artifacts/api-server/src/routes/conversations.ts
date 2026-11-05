@@ -1,5 +1,4 @@
 import { Router } from "express";
-import type { ChatCompletionMessageParam } from "openai";
 import { db } from "@workspace/db";
 import { conversations, messages, memories } from "@workspace/db";
 import { eq, asc, desc, and, count } from "drizzle-orm";
@@ -236,7 +235,7 @@ ${memoryContext}`;
     if (provider === "openrouter") {
       // OpenRouter (OpenAI-compatible) streaming
       const openRouterModel = normalizeOpenRouterModel(selectedModel);
-      const openaiHistory: ChatCompletionMessageParam[] = conversationHistory.slice(0, -1).map((m) => ({
+      const openaiHistory = conversationHistory.slice(0, -1).map((m) => ({
         role: m.role === "assistant" ? ("assistant" as const) : ("user" as const),
         content: m.content,
       }));
