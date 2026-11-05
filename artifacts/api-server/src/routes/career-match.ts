@@ -1,4 +1,5 @@
 import { Router } from "express";
+import type { Part } from "@google/generative-ai";
 import { genAI } from "../lib/openai";
 import { requireUser } from "../middlewares/requireUser";
 
@@ -40,7 +41,7 @@ router.post("/career-match", requireUser, async (req, res) => {
   res.setHeader("Connection", "keep-alive");
 
   try {
-    const parts: object[] = [];
+    const parts: Part[] = [];
 
     for (const file of files) {
       if (file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
