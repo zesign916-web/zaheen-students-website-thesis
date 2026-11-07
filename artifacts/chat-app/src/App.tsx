@@ -11,8 +11,9 @@ import ChatPage from "@/pages/chat";
 import LoginPage from "@/pages/login";
 import QuestionsHubPage from "@/pages/questions-hub";
 import SectionPage from "@/pages/section-page";
+import HomePage from "@/pages/home";
+import AboutPage from "@/pages/about";
 import { OnboardingOverlay } from "@/components/onboarding-overlay";
-import { Loader2 } from "lucide-react";
 import { Preloader } from "@/components/preloader";
 
 const queryClient = new QueryClient();
@@ -22,7 +23,9 @@ function AppRoutes() {
   return (
     <div key={location} className="zt-fade" style={{ minHeight: "100vh" }}>
       <Switch>
-        <Route path="/" component={ChatPage} />
+        <Route path="/" component={HomePage} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="/ai" component={ChatPage} />
         <Route path="/questions" component={QuestionsHubPage} />
         <Route path="/questions/:section" component={SectionPage} />
         <Route component={NotFound} />
@@ -33,7 +36,12 @@ function AppRoutes() {
 
 function Router() {
   const { user, isLoading } = useAuth();
+  const [location] = useLocation();
   const [onboardingDone, setOnboardingDone] = useState(() => localStorage.getItem("zei_onboarding_complete") === "true");
+
+  if (location === "/" || location === "/about") {
+    return <AppRoutes />;
+  }
 
   if (isLoading) {
     return <Preloader />;
