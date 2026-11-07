@@ -166,22 +166,25 @@ export function PostLoginPreloader({ onComplete }: PostLoginPreloaderProps) {
             { top: "10%", right: "8%", rotate: 90 },
             { bottom: "10%", left: "8%", rotate: 270 },
             { bottom: "10%", right: "8%", rotate: 180 },
-          ].map((pos, idx) => (
-            <div
-              key={idx}
-              className="absolute w-10 h-10"
-              style={{
-                ...pos,
-                transform: `rotate(${pos.rotate}deg)`,
-                animation: "plCorner 0.8s ease-out forwards",
-                animationDelay: `${0.2 + idx * 0.06}s`,
-                opacity: 0,
-              }}
-            >
-              <div className="w-full h-px bg-foreground/20" />
-              <div className="w-px h-full bg-foreground/20 absolute top-0 left-0" />
-            </div>
-          ))}
+          ].map((pos, idx) => {
+            const { rotate, ...position } = pos;
+            return (
+              <div
+                key={idx}
+                className="absolute w-10 h-10"
+                style={{
+                  ...position,
+                  transform: `rotate(${rotate}deg)`,
+                  animation: "plCorner 0.8s ease-out forwards",
+                  animationDelay: `${0.2 + idx * 0.06}s`,
+                  opacity: 0,
+                }}
+              >
+                <div className="w-full h-px bg-foreground/20" />
+                <div className="w-px h-full bg-foreground/20 absolute top-0 left-0" />
+              </div>
+            );
+          })}
         </div>
 
         {/* Central content */}
