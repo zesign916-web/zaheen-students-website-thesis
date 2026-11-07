@@ -3,6 +3,10 @@
 # compiled output
 dist
 public
+!artifacts/chat-app/public/
+!artifacts/chat-app/public/zei-logo.png
+!artifacts/chat-app/public/zei-mark.png
+!artifacts/chat-app/public/zei-wordmark.png
 tmp
 out-tsc
 *.tsbuildinfo

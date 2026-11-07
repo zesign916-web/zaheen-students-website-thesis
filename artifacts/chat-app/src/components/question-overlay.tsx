@@ -3,6 +3,7 @@ import { X, Send, Loader2, Bot, Star, ThumbsUp, Copy, Check } from "lucide-react
 import { useAuth } from "@/hooks/use-auth";
 import { useLanguage } from "@/hooks/use-language";
 import { cn } from "@/lib/utils";
+import { brandAsset } from "@/lib/brand-assets";
 
 /* ─── Types ─── */
 
@@ -394,7 +395,7 @@ Keep the tone warm, clear, and encouraging. Use numbered points for lists. Do no
         <div className="flex-1 overflow-y-auto px-5 md:px-10 py-6 md:border-r border-border/30">
           <div className="max-w-2xl mx-auto">
             <div className="flex items-center gap-2 mb-4">
-              <img src="/zei-logo.png" alt="" className="w-6 h-6 object-contain opacity-80" />
+              <img src={brandAsset("zei-logo.png")} alt="" className="w-6 h-6 object-contain opacity-80" />
               <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">Zaheen Student.AI — Detailed Explanation</span>
               {existingAnswer && (
                 <span className="text-[9px] bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full font-medium ml-auto">Saved answer</span>

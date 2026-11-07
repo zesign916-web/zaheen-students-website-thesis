@@ -7,6 +7,7 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { useLanguage } from "@/hooks/use-language";
 import { cn } from "@/lib/utils";
+import { brandAsset } from "@/lib/brand-assets";
 interface CommunityQuestion {
   id: number;
   text: string;
@@ -589,7 +590,7 @@ export default function SectionPage() {
         </button>
 
         <div className="shrink-0 hidden md:flex items-center gap-1.5">
-          <img src="/zei-logo.png" alt="" className="w-5 h-5 object-contain opacity-70" />
+          <img src={brandAsset("zei-logo.png")} alt="" className="w-5 h-5 object-contain opacity-70" />
         </div>
       </div>
 
@@ -617,7 +618,7 @@ export default function SectionPage() {
         {filteredStatic.length > 0 && (
           <section>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/zei-logo.png" alt="" className={cn("w-4 h-4 object-contain opacity-60")} />
+              <img src={brandAsset("zei-logo.png")} alt="" className={cn("w-4 h-4 object-contain opacity-60")} />
               <h2 className="text-sm font-bold text-foreground">{t.featuredQuestions}</h2>
               <span className="text-[10px] text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full">{filteredStatic.length}</span>
             </div>
@@ -629,7 +630,7 @@ export default function SectionPage() {
                   className="group text-left px-4 py-3.5 rounded-2xl border border-border/50 bg-card/60 hover:bg-card hover:border-border hover:shadow-sm transition-all"
                 >
                   <div className="flex items-start gap-2.5">
-                    <img src="/zei-logo.png" alt="" className="w-3.5 h-3.5 mt-0.5 shrink-0 object-contain opacity-40 group-hover:opacity-70 transition-opacity" />
+                    <img src={brandAsset("zei-logo.png")} alt="" className="w-3.5 h-3.5 mt-0.5 shrink-0 object-contain opacity-40 group-hover:opacity-70 transition-opacity" />
                     <div className="flex-1 min-w-0">
                       <span className="text-sm text-foreground/70 group-hover:text-foreground leading-snug transition-colors">{q}</span>
                       {reviewStats[q] && (

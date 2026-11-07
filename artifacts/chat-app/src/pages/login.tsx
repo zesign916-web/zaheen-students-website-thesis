@@ -1,5 +1,6 @@
 import { useState, FormEvent } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { brandAsset } from "@/lib/brand-assets";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -144,8 +145,8 @@ function Logo({ animate = false }: { animate?: boolean }) {
         className="absolute inset-0 rounded-2xl pulse-glow"
         style={{ background: "radial-gradient(circle, rgba(0,0,0,0.06) 0%, transparent 70%)", transform: "scale(1.5)" }}
       />
-      <img src="/zei-logo.png" alt="" aria-hidden className="absolute inset-0 w-full h-full object-contain" style={{ opacity: 0.1, filter: "grayscale(1)" }} />
-      <img src="/zei-logo.png" alt="Zehn.AI Logo" className={`absolute inset-0 w-full h-full object-contain ${animate ? "login-liquid-fill" : ""}`} />
+      <img src={brandAsset("zei-logo.png")} alt="" aria-hidden className="absolute inset-0 w-full h-full object-contain" style={{ opacity: 0.1, filter: "grayscale(1)" }} />
+      <img src={brandAsset("zei-logo.png")} alt="Zehn.AI Logo" className={`absolute inset-0 w-full h-full object-contain ${animate ? "login-liquid-fill" : ""}`} />
       {animate && (
         <div className="absolute left-1/2 login-wave-pos pointer-events-none" style={{ width: "120%", height: "8px" }}>
           <div className="login-wave-shape w-full h-full" style={{ background: "rgba(255,255,255,0.3)", position: "absolute", left: 0, top: "-3px" }} />

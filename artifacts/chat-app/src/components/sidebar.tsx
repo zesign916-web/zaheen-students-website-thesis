@@ -18,6 +18,7 @@ import { Plus, MessageSquare, Brain, Trash2, ChevronDown, Loader2, LogOut, X, Se
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
+import { brandAsset } from "@/lib/brand-assets";
 import { SettingsDialog } from "@/components/settings-dialog";
 import { useLanguage } from "@/hooks/use-language";
 import { ContextMenu, type ContextMenuItem } from "@/components/context-menu";
@@ -304,7 +305,7 @@ export function Sidebar({ activeId, onSelect, onClose, onCareerMatch }: SidebarP
         <div className="px-4 pt-safe pt-4 pb-3 border-b border-sidebar-border/50">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
-              <img src="/zei-mark.png" alt="Zaheen Student.AI" className="w-8 h-8 object-contain" />
+              <img src={brandAsset("zei-mark.png")} alt="Zaheen Student.AI" className="w-8 h-8 object-contain" />
               <div className="leading-tight">
                 <p className="text-sm font-bold tracking-widest text-foreground">Zaheen Student.AI</p>
                 <p className="text-[9px] text-muted-foreground tracking-wider">{t.dailyGuide}</p>
@@ -333,7 +334,7 @@ export function Sidebar({ activeId, onSelect, onClose, onCareerMatch }: SidebarP
             onClick={() => { setLocation("/questions"); onClose?.(); }}
             className="w-full mt-2 h-8 rounded-xl border border-border/40 bg-transparent hover:bg-sidebar-accent/40 transition-all text-xs text-muted-foreground hover:text-foreground flex items-center justify-center gap-1.5"
           >
-            <img src="/zei-mark.png" alt="" className="w-3.5 h-3.5 object-contain opacity-60" />
+            <img src={brandAsset("zei-mark.png")} alt="" className="w-3.5 h-3.5 object-contain opacity-60" />
             {t.checkCommunity}
           </button>
           <CareerMatchButton onClick={() => { onCareerMatch?.(); onClose?.(); }} />

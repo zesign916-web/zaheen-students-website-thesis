@@ -1,3 +1,5 @@
+import { brandAsset } from "@/lib/brand-assets";
+
 export function Preloader() {
   return (
     <>
@@ -69,7 +71,7 @@ export function Preloader() {
 
             {/* Ghost logo — always visible, dim */}
             <img
-              src="/zei-logo.png"
+              src={brandAsset("zei-logo.png")}
               alt=""
               aria-hidden
               className="absolute inset-0 w-full h-full object-contain"
@@ -78,7 +80,7 @@ export function Preloader() {
 
             {/* Filled logo — clips upward via liquidFill */}
             <img
-              src="/zei-logo.png"
+              src={brandAsset("zei-logo.png")}
               alt="Zaheen.AI Logo"
               className="absolute inset-0 w-full h-full object-contain liquid-fill"
             />

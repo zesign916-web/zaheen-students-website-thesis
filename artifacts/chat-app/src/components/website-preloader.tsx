@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { BrandImage } from "@/components/brand-image";
 
 export function WebsitePreloader({ onComplete }: { onComplete: () => void }) {
   const [leaving, setLeaving] = useState(false);
@@ -16,7 +17,7 @@ export function WebsitePreloader({ onComplete }: { onComplete: () => void }) {
       <div className="preloader-light" />
       <div className="preloader-mark-wrap">
         <span className="preloader-halo" />
-        <img src="/zei-logo.png" alt="ZahinStudent" className="preloader-mark" />
+        <BrandImage filename="zei-logo.png" alt="ZahinStudent" className="preloader-mark" width={112} height={112} />
       </div>
       <span className="preloader-caption">A learning initiative for every student</span>
     </div>

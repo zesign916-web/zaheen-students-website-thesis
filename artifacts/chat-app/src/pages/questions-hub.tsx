@@ -1,6 +1,7 @@
 import { useLocation } from "wouter";
 import { BookOpen, GraduationCap, Building2, ChevronRight, ArrowLeft } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
+import { brandAsset } from "@/lib/brand-assets";
 
 const sections = [
   { slug: "school", icon: BookOpen, titleKey: "sectionSchool", descriptionKey: "sectionSchoolDesc" },
@@ -19,7 +20,7 @@ export default function QuestionsHubPage() {
           <ArrowLeft className="h-4 w-4" /> {t.backToChat}
         </button>
         <div className="ml-auto flex items-center gap-3">
-          <img src="/zei-mark.png" alt="Zaheen Student.AI" className="h-8 w-8 object-contain" />
+          <img src={brandAsset("zei-mark.png")} alt="Zaheen Student.AI" className="h-8 w-8 object-contain" />
           <span className="hidden text-sm font-semibold sm:inline">Zaheen Student.AI</span>
         </div>
       </header>

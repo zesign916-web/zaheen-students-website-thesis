@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { brandAsset } from "@/lib/brand-assets";
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -94,7 +95,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             style={{ animation: "splash-pulse 1.5s ease-in-out infinite" }}
           />
           <img
-            src="/zei-logo.png"
+            src={brandAsset("zei-logo.png")}
             alt="Zaheen.AI Logo"
             className="w-20 h-20 object-contain relative z-10"
           />

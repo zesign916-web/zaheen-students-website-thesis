@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Check, GraduationCap, Heart, Sparkles } from "lucide-react";
+import { brandAsset } from "@/lib/brand-assets";
 
 interface Props {
   onDone: () => void;
@@ -25,7 +26,7 @@ export function OnboardingOverlay({ onDone }: Props) {
       <div className="absolute inset-0 bg-cover bg-center opacity-35" style={{ backgroundImage: "url('/login-bg.png')" }} />
       <section className="relative w-full max-w-xl rounded-3xl border border-border bg-white/95 p-6 shadow-xl backdrop-blur md:p-9">
         <div className="mb-7 flex items-center justify-between">
-          <div className="flex items-center gap-3"><img src="/zei-mark.png" alt="Zaheen Student.AI" className="h-10 w-10 object-contain" /><div><p className="text-sm font-semibold">Build your learning profile</p><p className="text-xs text-muted-foreground">Personalise your study companion</p></div></div>
+          <div className="flex items-center gap-3"><img src={brandAsset("zei-mark.png")} alt="Zaheen Student.AI" className="h-10 w-10 object-contain" /><div><p className="text-sm font-semibold">Build your learning profile</p><p className="text-xs text-muted-foreground">Personalise your study companion</p></div></div>
           <button onClick={finish} className="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground">Skip</button>
         </div>
         <div className="mb-7 flex gap-2">{[0, 1, 2].map(item => <span key={item} className={`h-1.5 flex-1 rounded-full ${item <= step ? "bg-foreground" : "bg-muted"}`} />)}</div>

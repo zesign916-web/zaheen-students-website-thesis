@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { brandAsset } from "@/lib/brand-assets";
 
 const LOADING_MESSAGES = [
   "Loading your conversations…",
@@ -200,7 +201,7 @@ export function PostLoginPreloader({ onComplete }: PostLoginPreloaderProps) {
             />
             {/* Ghost logo */}
             <img
-              src="/zei-logo.png"
+              src={brandAsset("zei-logo.png")}
               alt=""
               aria-hidden
               className="absolute inset-0 w-full h-full object-contain"
@@ -208,7 +209,7 @@ export function PostLoginPreloader({ onComplete }: PostLoginPreloaderProps) {
             />
             {/* Filling logo */}
             <img
-              src="/zei-logo.png"
+              src={brandAsset("zei-logo.png")}
               alt="Zaheen.AI Logo"
               className="absolute inset-0 w-full h-full object-contain pl-liquid-fill"
             />

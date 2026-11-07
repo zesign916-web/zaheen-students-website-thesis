@@ -310,3 +310,9 @@ html.lang-ur .font-latin {
 
 /* Maintain existing product color system and typography. */
 :root { --background: 0 0% 100%; }
+.type-once { display: inline-grid; grid-template-columns: minmax(0, 1fr); vertical-align: baseline; }
+.type-once-space, .type-once-visible { grid-area: 1 / 1; }
+.type-once-space { visibility: hidden; }
+.type-once-visible { min-width: 0; }
+.brand-image-fallback { display: inline-flex; align-items: center; justify-content: center; color: #171717; font-family: var(--app-font-sans); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; }
+.hero-mark.brand-image-fallback { border: 1px solid rgba(0,0,0,.12); border-radius: 9999px; font-size: 0.65rem; }

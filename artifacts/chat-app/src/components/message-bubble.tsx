@@ -6,6 +6,7 @@ import { ContextMenu, type ContextMenuItem } from "./context-menu";
 import { useTouchMenu } from "@/hooks/use-touch-menu";
 import { useLanguage } from "@/hooks/use-language";
 import type { OpenaiMessage } from "@workspace/api-client-react";
+import { brandAsset } from "@/lib/brand-assets";
 
 interface MessageBubbleProps {
   message: OpenaiMessage;
@@ -295,7 +296,7 @@ export function MessageBubble({
           isNew && "msg-bubble-enter",
         )}
       >
-        {!isUser && <img src="/zei-mark.png" alt="Zaheen Student.AI" className="mb-1 h-7 w-7 shrink-0 rounded-full border border-border bg-white p-1 object-contain" />}
+        {!isUser && <img src={brandAsset("zei-mark.png")} alt="Zaheen Student.AI" className="mb-1 h-7 w-7 shrink-0 rounded-full border border-border bg-white p-1 object-contain" />}
         <div className={cn("flex flex-col gap-1 max-w-[88%] md:max-w-[80%]", isUser && "items-end")}>
 
           {/* Reply reference */}
