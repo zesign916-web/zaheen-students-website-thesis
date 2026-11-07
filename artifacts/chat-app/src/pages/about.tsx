@@ -1,11 +1,12 @@
 import { Link } from "wouter";
+import { TypewriterHeading } from "@/components/typewriter-heading";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-white text-neutral-950">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 sm:px-10">
-        <Link href="/" className="flex items-center gap-3" aria-label="ZahinStudent home">
-          <img src="/zei-wordmark.png" alt="Zaheen Student" className="h-10 w-auto object-contain" />
+    <main className="site-page min-h-screen bg-white text-neutral-950">
+      <header className="site-header mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 sm:px-10">
+        <Link href="/" className="brand-link flex items-center gap-3" aria-label="ZAHIN Student home">
+          <img src="/zei-wordmark.png" alt="ZAHIN Student" className="h-12 w-auto object-contain" />
         </Link>
         <nav aria-label="Main navigation" className="flex items-center gap-6 text-sm font-medium">
           <Link href="/" className="text-neutral-500 transition-colors hover:text-neutral-900">Home</Link>
@@ -13,23 +14,25 @@ export default function AboutPage() {
         </nav>
       </header>
       <div className="mx-auto max-w-5xl px-6 pb-24 sm:px-10">
-        <section className="py-14 text-center sm:py-20">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-neutral-500">About ZahinStudent</p>
-          <h1 className="mx-auto max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">An Initiative for the <span className="font-serif font-normal italic">Future of Education.</span></h1>
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-neutral-600 sm:text-lg sm:leading-8">Making artificial intelligence more accessible, responsible, and useful for students.</p>
+        <section className="about-hero py-14 text-center sm:py-20">
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-neutral-500">About ZAHIN Student</p>
+          <h1 className="mx-auto min-h-[2.2em] max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:min-h-[1.25em] sm:text-6xl" aria-label="An Initiative for the Future of Education.">
+            <span aria-hidden="true"><TypewriterHeading text="An Initiative for the Future of Education." typingDuration={5000} /></span>
+          </h1>
+          <p className="hero-description mx-auto mt-7 max-w-2xl text-base leading-7 text-neutral-600 sm:text-lg sm:leading-8">Making artificial intelligence more accessible, responsible, and useful for students.</p>
         </section>
 
-        <section className="border-t border-neutral-200 py-12 sm:py-14">
+        <section className="about-content border-t border-neutral-200 py-12 sm:py-14">
           <h2 className="text-2xl font-semibold tracking-tight">About the Project</h2>
           <div className="mt-5 max-w-3xl space-y-4 text-[15px] leading-7 text-neutral-600">
-            <p>ZahinStudent is an educational technology initiative developed to explore the responsible and ethical integration of artificial intelligence into education.</p>
+            <p>ZAHIN Student is an educational technology initiative developed to explore the responsible and ethical integration of artificial intelligence into education.</p>
             <p>The project aims to provide students with accessible AI-powered tools that support learning, understanding, research, and academic development.</p>
             <p>Rather than encouraging students to depend blindly on AI, the initiative promotes its responsible use as an educational assistant.</p>
             <p>The long-term vision is to develop a comprehensive educational ecosystem where students can access useful digital tools and learning resources in one place.</p>
           </div>
         </section>
 
-        <section className="grid gap-10 border-t border-neutral-200 py-12 sm:grid-cols-2 sm:py-14">
+        <section className="about-content grid gap-10 border-t border-neutral-200 py-12 sm:grid-cols-2 sm:py-14">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Created by</p>
             <h2 className="mt-3 text-xl font-semibold">Faisal Sajjad</h2>
@@ -38,21 +41,20 @@ export default function AboutPage() {
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Academic supervision</p>
-            <h2 className="mt-3 text-xl font-semibold">Ma'am Sumbul Mushtaq</h2>
+            <h2 className="mt-3 text-xl font-semibold">Ma'am Sumbal MAQSWD</h2>
             <div className="mt-4 rounded-lg border border-dashed border-neutral-300 px-5 py-6 text-sm leading-6 text-neutral-500">Academic profile and professional information may be added here.</div>
           </div>
         </section>
 
-        <section className="border-t border-neutral-200 py-12 sm:py-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Our commitment</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">Responsible AI. Ethical Learning.</h2>
+        <section className="about-content border-t border-neutral-200 py-12 sm:py-14">
+          <h2 className="text-2xl font-semibold tracking-tight">Responsible AI. Ethical Learning.</h2>
           <div className="mt-5 max-w-3xl space-y-4 text-[15px] leading-7 text-neutral-600">
-            <p>ZahinStudent AI is designed exclusively for educational purposes. Its primary objective is to assist students in understanding academic concepts, exploring ideas, conducting educational research, and improving their learning experience.</p>
+            <p>ZAHIN Student AI is designed exclusively for educational purposes. Its primary objective is to assist students in understanding academic concepts, exploring ideas, conducting educational research, and improving their learning experience.</p>
             <p>The platform does not intend to facilitate academic dishonesty, examination cheating, plagiarism, or the submission of AI-generated work as a student's independent effort.</p>
             <p>AI tools are intended to support learning rather than replace independent thinking, academic effort, or human judgement. The platform operates under an educational framework that prioritises responsible AI usage, academic integrity, and ethical learning practices.</p>
             <p>Users should independently verify important information generated by AI, as AI systems can occasionally produce inaccurate or incomplete responses.</p>
           </div>
-          <aside className="mt-8 rounded-lg border border-neutral-200 bg-neutral-50 px-5 py-4 text-sm leading-6 text-neutral-600">ZahinStudent is an ongoing educational technology initiative. Its tools, features, and policies are continuously being developed and refined.</aside>
+          <aside className="mt-8 rounded-lg border border-neutral-200 bg-neutral-50 px-5 py-4 text-sm leading-6 text-neutral-600">ZAHIN Student is an ongoing educational technology initiative. Its tools, features, and policies are continuously being developed and refined.</aside>
         </section>
       </div>
     </main>

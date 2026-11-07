@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { WebsitePreloader } from "@/components/website-preloader";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/hooks/use-auth";
@@ -66,6 +67,9 @@ function Router() {
 }
 
 function App() {
+  const [showPreloader, setShowPreloader] = useState(true);
+  const finishPreloader = useCallback(() => setShowPreloader(false), []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -76,6 +80,7 @@ function App() {
                 <Router />
               </WouterRouter>
               <Toaster />
+              {showPreloader && <WebsitePreloader onComplete={finishPreloader} />}
             </AuthProvider>
           </AppearanceProvider>
         </LanguageProvider>
