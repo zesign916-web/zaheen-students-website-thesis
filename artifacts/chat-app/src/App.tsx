@@ -26,8 +26,7 @@ function AppRoutes() {
       <Switch>
         <Route path="/" component={HomePage} />
         <Route path="/about" component={AboutPage} />
-        <Route path="/ai" component={ChatPage} />
-        <Route path="/AI" component={ChatPage} />
+        <Route path={/^\/ai$/i} component={ChatPage} />
         <Route path="/questions" component={QuestionsHubPage} />
         <Route path="/questions/:section" component={SectionPage} />
         <Route component={NotFound} />

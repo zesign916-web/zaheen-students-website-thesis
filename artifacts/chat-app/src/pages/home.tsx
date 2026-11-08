@@ -1,18 +1,15 @@
 import { useState, type MouseEvent } from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { TypewriterHeading } from "@/components/typewriter-heading";
 import { TypeOnceText } from "@/components/type-once-text";
 import { BrandImage } from "@/components/brand-image";
 
 export default function HomePage() {
-  const [, setLocation] = useLocation();
   const [ripple, setRipple] = useState<{ x: number; y: number; id: number } | null>(null);
 
   const launchAI = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
     const bounds = event.currentTarget.getBoundingClientRect();
     setRipple({ x: event.clientX - bounds.left, y: event.clientY - bounds.top, id: Date.now() });
-    window.setTimeout(() => setLocation("/ai"), 320);
   };
 
   return (
@@ -36,7 +33,7 @@ export default function HomePage() {
         <p className="hero-description relative z-10 mt-7 max-w-2xl text-base leading-7 text-neutral-600 sm:text-lg sm:leading-8"><TypeOnceText text="An educational initiative bringing intelligent AI tools, learning assistance, and digital resources together to support students in their academic journey." delay={750} /></p>
         <div className="relative z-10 mt-11 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
           <Link href="/about" className="hero-button hero-button-secondary inline-flex min-h-12 items-center justify-center rounded-md border border-neutral-300 px-7 text-sm font-medium"><TypeOnceText text="About Us" delay={1100} /></Link>
-          <Link href="/ai" onClick={launchAI} className="hero-button hero-button-primary relative inline-flex min-h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-7 text-sm font-medium text-white">
+          <Link href="/AI" onClick={launchAI} className="hero-button hero-button-primary relative inline-flex min-h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-7 text-sm font-medium text-white">
             <span className="relative z-10"><TypeOnceText text="Launch AI" delay={1250} /></span>
             {ripple && <span key={ripple.id} className="button-ripple" style={{ left: ripple.x, top: ripple.y }} />}
           </Link>
