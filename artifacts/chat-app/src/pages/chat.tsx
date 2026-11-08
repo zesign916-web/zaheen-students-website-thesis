@@ -16,10 +16,13 @@ export default function ChatPage() {
   const isResizing = useRef(false);
   const { data: conversations } = useListOpenaiConversations();
   const localConversations = (() => {
-    try { return JSON.parse(localStorage.getItem("zei_demo_conversations") || "[]") as Array<{ id: number; title?: string | null; updatedAt?: string }>; }
-    catch { return []; }
+    try {
+      const stored: unknown = JSON.parse(localStorage.getItem("zei_demo_conversations") || "[]");
+      return Array.isArray(stored) ? stored as Array<{ id: number; title?: string | null; updatedAt?: string }> : [];
+    } catch { return []; }
   })();
-  const allConversations = [...localConversations, ...(conversations ?? []).filter(conversation => !localConversations.some(item => item.id === conversation.id))];
+  const apiConversations = Array.isArray(conversations) ? conversations : [];
+  const allConversations = [...localConversations, ...apiConversations.filter(conversation => !localConversations.some(item => item.id === conversation.id))];
 
   useEffect(() => {
     const openUpload = () => setCareerMatchOpen(true);

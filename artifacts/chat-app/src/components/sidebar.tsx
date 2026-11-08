@@ -174,10 +174,14 @@ export function Sidebar({ activeId, onSelect, onClose, onCareerMatch }: SidebarP
   const { data: conversations, isLoading: loadingConversations } = useListOpenaiConversations();
   const { data: memories, isLoading: loadingMemories } = useListMemories();
   const demoConversations = (() => {
-    try { return JSON.parse(localStorage.getItem("zei_demo_conversations") || "[]") as Array<{ id: number; title?: string | null }>; }
-    catch { return []; }
+    try {
+      const stored: unknown = JSON.parse(localStorage.getItem("zei_demo_conversations") || "[]");
+      return Array.isArray(stored) ? stored as Array<{ id: number; title?: string | null }> : [];
+    } catch { return []; }
   })();
-  const visibleConversations = [...demoConversations, ...(conversations ?? []).filter(conversation => !demoConversations.some(item => item.id === conversation.id))];
+  const apiConversations = Array.isArray(conversations) ? conversations : [];
+  const visibleConversations = [...demoConversations, ...apiConversations.filter(conversation => !demoConversations.some(item => item.id === conversation.id))];
+  const visibleMemories = Array.isArray(memories) ? memories : [];
 
   const createConversation = useCreateOpenaiConversation();
   const deleteConversation = useDeleteOpenaiConversation();
@@ -385,9 +389,9 @@ export function Sidebar({ activeId, onSelect, onClose, onCareerMatch }: SidebarP
               <CollapsibleTrigger className="flex items-center justify-between w-full px-2 py-1.5 text-[10px] font-bold text-sidebar-foreground/40 uppercase tracking-widest hover:bg-sidebar-accent/30 rounded-xl transition-colors mb-1.5">
                 <div className="flex items-center gap-1.5">
                   <span>{t.memories}</span>
-                  {memories && memories.length > 0 && (
+                  {visibleMemories.length > 0 && (
                     <Badge variant="secondary" className="px-1.5 py-0 text-[9px] font-mono bg-sidebar-accent text-sidebar-foreground h-4">
-                      {memories.length}
+                      {visibleMemories.length}
                     </Badge>
                   )}
                 </div>
@@ -399,7 +403,7 @@ export function Sidebar({ activeId, onSelect, onClose, onCareerMatch }: SidebarP
                   <div className="flex justify-center p-3">
                     <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
                   </div>
-                ) : memories?.length === 0 ? (
+                ) : visibleMemories.length === 0 ? (
                   <div className="px-3 py-5 mx-1 text-center bg-sidebar-accent/30 rounded-xl border border-sidebar-border/40 border-dashed">
                     <Brain className="w-4 h-4 mx-auto mb-1.5 text-muted-foreground/40" />
                     <p className="text-[11px] text-muted-foreground leading-relaxed">
@@ -407,7 +411,7 @@ export function Sidebar({ activeId, onSelect, onClose, onCareerMatch }: SidebarP
                     </p>
                   </div>
                 ) : (
-                  memories?.map((mem: { id: number; content: string }) => (
+                  visibleMemories.map((mem: { id: number; content: string }) => (
                     <div key={mem.id} className="px-3 py-2 bg-background border border-border/50 rounded-xl group relative overflow-hidden transition-all hover:border-border">
                       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary/30 rounded-l-xl" />
                       <p className="text-[11px] text-foreground/80 pr-5 leading-relaxed ml-1">{mem.content}</p>
