@@ -5,7 +5,7 @@ export function BrandImage({
   filename,
   alt,
   className,
-  fallback = "ZAHIN Student",
+  fallback = "Zaheen Student",
   width,
   height,
 }: {

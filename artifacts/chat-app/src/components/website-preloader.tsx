@@ -13,11 +13,9 @@ export function WebsitePreloader({ onComplete }: { onComplete: () => void }) {
   }, [onComplete]);
 
   return (
-    <div className={`site-preloader${leaving ? " is-leaving" : ""}`} role="status" aria-label="Loading ZahinStudent">
-      <div className="preloader-light" />
+    <div className={`site-preloader${leaving ? " is-leaving" : ""}`} role="status" aria-label="Loading Zaheen Student">
       <div className="preloader-mark-wrap">
-        <span className="preloader-halo" />
-        <BrandImage filename="zei-logo.png" alt="ZahinStudent" className="preloader-mark" width={112} height={112} />
+        <BrandImage filename="zahin-logo.png" alt="Zaheen Student logo" className="preloader-mark" width={112} height={112} />
       </div>
       <span className="preloader-caption">A learning initiative for every student</span>
     </div>

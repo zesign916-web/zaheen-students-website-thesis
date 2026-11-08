@@ -18,8 +18,8 @@ export default function HomePage() {
   return (
     <main className="site-page min-h-screen bg-white text-neutral-950">
       <header className="site-header mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 sm:px-10">
-        <Link href="/" className="brand-link flex items-center gap-3" aria-label="ZahinStudent home">
-          <BrandImage filename="zei-wordmark.png" alt="ZAHIN Student" className="h-12 w-auto object-contain" width={220} height={48} />
+        <Link href="/" className="brand-link flex items-center gap-3" aria-label="Zaheen Student home">
+          <BrandImage filename="zei-wordmark.png" alt="Zaheen Student" className="h-12 w-auto object-contain" width={220} height={48} />
         </Link>
         <nav aria-label="Main navigation" className="flex items-center gap-6 text-sm font-medium">
           <Link href="/" className="text-neutral-900"><TypeOnceText text="Home" /></Link>
@@ -28,9 +28,9 @@ export default function HomePage() {
       </header>
       <section className="home-hero relative mx-auto flex min-h-[calc(100svh-88px)] max-w-6xl flex-col items-center justify-center overflow-hidden px-6 pb-24 pt-8 text-center sm:min-h-[calc(100svh-96px)] sm:px-10 sm:pb-28">
         <div className="hero-ambient" aria-hidden="true"><span /><span /><span /><i /><i /></div>
-        <BrandImage filename="zei-mark.png" alt="ZahinStudent mark" fallback="ZAHIN" className="hero-mark relative z-10 mb-10 h-[76px] w-[76px] object-contain sm:mb-12 sm:h-20 sm:w-20" width={80} height={80} />
+        <BrandImage filename="zahin-logo.png" alt="Zaheen Student logo" fallback="Zaheen" className="hero-mark relative z-10 mb-10 h-[76px] w-[76px] object-contain sm:mb-12 sm:h-20 sm:w-20" width={80} height={80} />
         <p className="hero-intro relative z-10 mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-neutral-500"><TypeOnceText text="A learning initiative for every student" delay={350} /></p>
-        <h1 className="relative z-10 min-h-[2.2em] max-w-4xl text-4xl font-semibold leading-tight tracking-tight sm:min-h-[1.25em] sm:text-6xl" aria-label="Empowering Students Through Ethical AI.">
+        <h1 className="hero-heading relative z-10 min-h-[2.2em] max-w-4xl text-4xl font-semibold leading-tight tracking-tight sm:min-h-[1.25em] sm:text-6xl" aria-label="Empowering Students Through Ethical AI.">
           <span aria-hidden="true"><TypewriterHeading text="Empowering Students Through Ethical AI." /></span>
         </h1>
         <p className="hero-description relative z-10 mt-7 max-w-2xl text-base leading-7 text-neutral-600 sm:text-lg sm:leading-8"><TypeOnceText text="An educational initiative bringing intelligent AI tools, learning assistance, and digital resources together to support students in their academic journey." delay={750} /></p>

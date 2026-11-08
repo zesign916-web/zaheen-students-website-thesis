@@ -265,10 +265,10 @@ html.lang-ur .font-latin {
 .site-header { animation: site-enter 0.55s 0.05s both; }
 .hero-intro, .hero-description { animation: site-enter 0.7s 0.15s both; }
 .about-content { animation: site-enter 0.65s both; }
-.brand-link { transition: transform 220ms ease, filter 220ms ease; }
-.brand-link:hover { transform: translateY(-1px) scale(1.025); filter: drop-shadow(0 4px 8px rgba(0,0,0,.08)); }
-.hero-mark { filter: drop-shadow(0 5px 12px rgba(0,0,0,.07)); animation: mark-arrive .8s cubic-bezier(.2,.8,.2,1) both, mark-drift 7s ease-in-out 1s infinite; }
-@keyframes mark-arrive { from { opacity: 0; transform: scale(.82) rotate(-5deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+.brand-link { transition: transform 220ms ease; }
+.brand-link:hover { transform: translateY(-1px) scale(1.025); }
+.hero-mark { animation: mark-arrive .8s cubic-bezier(.2,.8,.2,1) both, mark-drift 7s ease-in-out 1s infinite; }
+@keyframes mark-arrive { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
 @keyframes mark-drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 .typewriter-cursor { display: inline-block; height: .85em; margin-left: .08em; border-right: 2px solid currentColor; vertical-align: -.04em; animation: cursor-blink 1s steps(2, start) infinite; }
 @keyframes cursor-blink { to { visibility: hidden; } }
@@ -294,15 +294,10 @@ html.lang-ur .font-latin {
 @keyframes ripple-expand { to { transform: translate(-50%,-50%) scale(22); opacity: 0; } }
 .site-preloader { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; overflow: hidden; background: #fff; transition: opacity .55s ease, visibility .55s ease; }
 .site-preloader.is-leaving { opacity: 0; visibility: hidden; }
-.preloader-light { position: absolute; width: 24rem; height: 24rem; border-radius: 50%; background: rgba(230,228,224,.56); filter: blur(70px); animation: light-breathe 3s ease-in-out infinite; }
-.preloader-mark-wrap { position: relative; display: grid; place-items: center; width: 148px; height: 148px; perspective: 700px; }
-.preloader-mark { position: relative; z-index: 1; width: 112px; height: 112px; object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,.13)); animation: logo-reveal 1.5s cubic-bezier(.2,.8,.2,1) both, logo-breathe 3.5s ease-in-out 1.5s infinite; }
-.preloader-halo { position: absolute; inset: 9px; border: 1px solid rgba(0,0,0,.08); border-radius: 36%; animation: halo-reveal 1.4s ease-out both; }
+.preloader-mark-wrap { position: relative; display: grid; place-items: center; width: 148px; height: 148px; }
+.preloader-mark { position: relative; z-index: 1; width: 112px; height: 112px; object-fit: contain; animation: logo-reveal 1s ease-out both; }
 .preloader-caption { position: relative; color: #737373; font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; animation: site-enter .8s .4s both; }
-@keyframes logo-reveal { from { opacity: 0; transform: rotateY(-22deg) scale(.72) translateY(12px); } to { opacity: 1; transform: rotateY(0) scale(1) translateY(0); } }
-@keyframes logo-breathe { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.025); } }
-@keyframes halo-reveal { from { opacity: 0; transform: scale(.72) rotate(-20deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
-@keyframes light-breathe { 0%,100% { opacity: .45; transform: scale(.92); } 50% { opacity: .8; transform: scale(1.08); } }
+@keyframes logo-reveal { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .hero-ambient span, .hero-ambient i { display: none; }
@@ -316,3 +311,6 @@ html.lang-ur .font-latin {
 .type-once-visible { min-width: 0; }
 .brand-image-fallback { display: inline-flex; align-items: center; justify-content: center; color: #171717; font-family: var(--app-font-sans); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; }
 .hero-mark.brand-image-fallback { border: 1px solid rgba(0,0,0,.12); border-radius: 9999px; font-size: 0.65rem; }
+.hero-heading, .about-heading { text-shadow: 0 1px 1px rgba(0,0,0,.12), 0 3px 7px rgba(0,0,0,.055); }
+.hero-button-secondary { text-shadow: 0 1px 1px rgba(0,0,0,.11); }
+.hero-button-primary { text-shadow: 0 1px 1px rgba(0,0,0,.25); }
