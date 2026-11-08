@@ -16,8 +16,10 @@ export function OnboardingOverlay({ onDone }: Props) {
   const update = (key: keyof typeof profile, value: string) => setProfile(current => ({ ...current, [key]: value }));
   const toggleInterest = (value: string) => setProfile(current => ({ ...current, interests: current.interests.includes(value) ? current.interests.filter(item => item !== value) : [...current.interests, value] }));
   const finish = () => {
-    localStorage.setItem("zei_learning_profile", JSON.stringify(profile));
-    localStorage.setItem("zei_onboarding_complete", "true");
+    try {
+      localStorage.setItem("zei_learning_profile", JSON.stringify(profile));
+      localStorage.setItem("zei_onboarding_complete", "true");
+    } catch {}
     onDone();
   };
 

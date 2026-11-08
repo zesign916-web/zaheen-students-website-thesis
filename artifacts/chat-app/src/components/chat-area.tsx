@@ -101,8 +101,12 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
   const queryClient = useQueryClient();
   const { language, setLanguage, t } = useLanguage();
   const [academicContext, setAcademicContext] = useState<AcademicContext>(() => {
-    const saved = localStorage.getItem("zei_academic_context");
-    return saved === "school" || saved === "university" ? saved : "college";
+    try {
+      const saved = localStorage.getItem("zei_academic_context");
+      return saved === "school" || saved === "university" ? saved : "college";
+    } catch {
+      return "college";
+    }
   });
 
   const [inputValue, setInputValue] = useState("");
@@ -153,7 +157,7 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
 
   const demoMode = typeof conversationId === "number" && conversationId < 0;
   useEffect(() => {
-    localStorage.setItem("zei_academic_context", academicContext);
+    try { localStorage.setItem("zei_academic_context", academicContext); } catch {}
   }, [academicContext]);
 
   useEffect(() => {
