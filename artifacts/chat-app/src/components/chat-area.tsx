@@ -547,7 +547,7 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
           <GeometricBackground opacity={0.6} />
           <div
             className="absolute inset-0"
-            style={{ background: "radial-gradient(ellipse 76% 74% at 50% 46%, rgba(139,92,246,.025) 15%, rgba(245,243,255,.82) 100%)" }}
+            style={{ background: "radial-gradient(ellipse 76% 74% at 50% 46%, rgba(0,0,0,.008) 15%, rgba(255,255,255,.82) 100%)" }}
           />
         </div>
 
