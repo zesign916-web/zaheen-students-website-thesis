@@ -26,6 +26,34 @@ const MODELS = [
 ] as const;
 
 type ModelId = (typeof MODELS)[number]["id"];
+type AcademicContext = "school" | "college" | "university";
+
+const CONTEXT_PROMPTS: Record<AcademicContext, string[]> = {
+  school: [
+    "Explain photosynthesis in simple steps for a school student.",
+    "Help me solve 3/4 + 2/5 step by step.",
+    "Create a short practice quiz about fractions.",
+    "Help me plan revision for my next science exam.",
+    "Explain the difference between a noun and a verb with examples.",
+    "Help me outline a school essay about environmental protection.",
+  ],
+  college: [
+    "Explain Newton's laws with intermediate-level examples.",
+    "Walk me through solving a quadratic equation, showing each step.",
+    "Create exam practice questions about organic chemistry.",
+    "Help me build a revision plan for my intermediate exams.",
+    "Help me strengthen an argument about renewable energy for an essay.",
+    "Explain how loops work in programming with a practical example.",
+  ],
+  university: [
+    "Suggest a focused research question about social media and student learning.",
+    "Explain a university-level concept and identify its key assumptions.",
+    "Show me a useful structure for a literature review on renewable energy.",
+    "Explain how to improve clarity and argument structure in academic writing.",
+    "Create a focused study plan for my upcoming university exam.",
+    "Explain a suitable research method for studying student learning outcomes.",
+  ],
+};
 
 const SUGGESTED_PROMPTS_EN = [
   { variants: ["I just finished matric — what should I do next?", "I passed my 10th class, where do I go from here?", "What are my options after matric in Pakistan?"] },
@@ -72,6 +100,10 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const { language, setLanguage, t } = useLanguage();
+  const [academicContext, setAcademicContext] = useState<AcademicContext>(() => {
+    const saved = localStorage.getItem("zei_academic_context");
+    return saved === "school" || saved === "university" ? saved : "college";
+  });
 
   const [inputValue, setInputValue] = useState("");
   const [demoMessages, setDemoMessages] = useState<OpenaiMessage[]>([]);
@@ -79,7 +111,6 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
   const [streamedContent, setStreamedContent] = useState("");
   const [selectedModel, setSelectedModel] = useState<ModelId>("gemini-3.1-flash-lite");
   const [modelOpen, setModelOpen] = useState(false);
-  const [pendingPrompt, setPendingPrompt] = useState<string | null>(null);
   const [promptChainNextIndex, setPromptChainNextIndex] = useState<number | null>(null);
   const [replyingTo, setReplyingTo] = useState<OpenaiMessage | null>(null);
   const [generationTimes, setGenerationTimes] = useState<Map<number, number>>(new Map());
@@ -122,13 +153,18 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
 
   const demoMode = typeof conversationId === "number" && conversationId < 0;
   useEffect(() => {
+    localStorage.setItem("zei_academic_context", academicContext);
+  }, [academicContext]);
+
+  useEffect(() => {
     if (!demoMode || !conversationId) { setDemoMessages([]); return; }
     try { setDemoMessages(JSON.parse(localStorage.getItem(`zei_demo_messages_${conversationId}`) || "[]") as OpenaiMessage[]); }
     catch { setDemoMessages([]); }
   }, [conversationId, demoMode]);
 
-  const SUGGESTED_PROMPTS = language === "ur" ? SUGGESTED_PROMPTS_UR : SUGGESTED_PROMPTS_EN;
-  const prompts = useMemo(() => SUGGESTED_PROMPTS.map((p) => pickVariant(p.variants)), [language]);
+  const prompts = useMemo(() => language === "ur"
+    ? SUGGESTED_PROMPTS_UR.slice(0, 6).map((item) => pickVariant(item.variants))
+    : CONTEXT_PROMPTS[academicContext], [academicContext, language]);
 
   const scrollToBottom = (smooth = false) => {
     if (scrollRef.current) {
@@ -148,15 +184,6 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
       textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 160)}px`;
     }
   }, [inputValue]);
-
-  useEffect(() => {
-    if (pendingPrompt && conversationId) {
-      const prompt = pendingPrompt;
-      setPendingPrompt(null);
-      setInputValue("");
-      doSend(prompt, conversationId);
-    }
-  }, [pendingPrompt, conversationId]);
 
   useEffect(() => {
     if (!conversation?.messages || pendingGenTimeRef.current === null) return;
@@ -423,10 +450,14 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!inputValue.trim() || !conversationId || isStreaming) return;
-    const msg = inputValue;
+    if (!inputValue.trim() || isStreaming || createConversation.isPending) return;
+    const msg = inputValue.trim();
     setInputValue("");
     setReplyingTo(null);
+    if (!conversationId) {
+      handlePromptClickNoConv(msg, 0);
+      return;
+    }
     doSend(msg, conversationId);
   };
 
@@ -440,8 +471,8 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
     createConversation.mutate({ data: {} }, {
       onSuccess: (newConv: { id: number }) => {
         queryClient.invalidateQueries({ queryKey: getListOpenaiConversationsQueryKey() });
+        localStorage.setItem("zei_pending_prompt", text);
         onConversationCreated?.(newConv.id);
-        setPendingPrompt(text);
       },
       onError: () => {
         const id = -Date.now();
@@ -449,8 +480,8 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
         const stored = JSON.parse(localStorage.getItem("zei_demo_conversations") || "[]") as typeof item[];
         localStorage.setItem("zei_demo_conversations", JSON.stringify([item, ...stored]));
         queryClient.setQueryData(getListOpenaiConversationsQueryKey(), (current: any) => [item, ...(Array.isArray(current) ? current : [])]);
+        localStorage.setItem("zei_pending_prompt", text);
         onConversationCreated?.(id);
-        setPendingPrompt(text);
       },
     });
   };
@@ -466,7 +497,7 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
   const handlePromptClickInConv = (text: string, index: number) => {
     setPromptChainNextIndex((index + 1) % prompts.length);
     autoFilledValueRef.current = null;
-    setInputValue(text);
+    setInputValue("");
     setTimeout(() => doSend(text, conversationId!), 0);
   };
 
@@ -516,7 +547,7 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
           <GeometricBackground opacity={0.6} />
           <div
             className="absolute inset-0"
-            style={{ background: "radial-gradient(ellipse 75% 70% at 50% 50%, transparent 30%, hsl(40,33%,98%) 100%)" }}
+            style={{ background: "radial-gradient(ellipse 76% 74% at 50% 46%, rgba(139,92,246,.025) 15%, rgba(245,243,255,.82) 100%)" }}
           />
         </div>
 
@@ -526,28 +557,64 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
           </button>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center flex-1 text-center px-6 pb-6 pt-4 overflow-y-auto">
-          <img src={brandAsset("zei-mark.png")} alt="Zaheen Student.AI" className="w-12 h-12 md:w-16 md:h-16 object-contain mb-3 opacity-90" />
-          <h1 className="text-2xl md:text-3xl font-bold tracking-widest text-foreground mb-0.5">Zaheen Student.AI</h1>
-          <p className="text-[10px] md:text-xs text-muted-foreground tracking-[0.3em] mb-2">{t.welcomeSubtitle}</p>
-          <div className="w-10 h-px bg-border mb-3" />
-          <p className="text-sm text-foreground/70 max-w-md mb-1 leading-relaxed">{t.welcomeDesc}</p>
-          <p className="text-[10px] text-muted-foreground tracking-wide mb-5">{t.welcomeTags}</p>
+        <div className="relative z-10 flex flex-col items-center flex-1 text-center px-5 pb-8 pt-5 md:pt-10 overflow-y-auto">
+          <div className="ai-welcome-content w-full max-w-3xl mx-auto">
+            <img src={brandAsset("zei-mark.png")} alt="Zaheen Student.AI" className="w-12 h-12 md:w-14 md:h-14 object-contain mx-auto mb-4" />
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-2">{t.welcomeSubtitle}</p>
+            <h1 className="text-2xl md:text-4xl font-semibold tracking-tight text-foreground">What would you like to learn today?</h1>
+            <p className="mt-3 mx-auto max-w-xl text-sm md:text-base leading-relaxed text-muted-foreground">{t.welcomeDesc}</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full max-w-3xl">
-            {prompts.map((prompt, i) => (
-              <button
-                key={i}
-                onClick={() => handlePromptClickNoConv(prompt, i)}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Choose your academic level">
+              <span className="mr-1 text-xs font-medium text-muted-foreground">I'm studying at</span>
+              {(["school", "college", "university"] as AcademicContext[]).map((level) => (
+                <button
+                  key={level}
+                  type="button"
+                  aria-pressed={academicContext === level}
+                  onClick={() => setAcademicContext(level)}
+                  className={cn("rounded-full border px-3.5 py-1.5 text-xs font-semibold capitalize transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40", academicContext === level ? "border-primary/30 bg-primary text-primary-foreground shadow-sm" : "border-border bg-card/80 text-foreground/70 hover:border-primary/30 hover:bg-primary/5")}
+                >
+                  {level}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 gap-2 text-left sm:grid-cols-2 lg:grid-cols-3">
+              {prompts.map((prompt, i) => (
+                <button
+                  key={`${academicContext}-${i}`}
+                  onClick={() => handlePromptClickNoConv(prompt, i)}
+                  disabled={createConversation.isPending}
+                  className="study-prompt group min-h-[92px] rounded-xl border border-border/70 bg-card/90 p-3.5 text-left transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.12em] text-primary">{["Homework help", "Math & science", "Exam preparation", "English & writing", "Research support", "Explain a concept"][i]}</span>
+                  <span className="block text-xs leading-relaxed text-foreground/75">{prompt}</span>
+                </button>
+              ))}
+            </div>
+
+            <form onSubmit={handleSubmit} className="workspace-compose mt-5 flex items-end gap-2 rounded-2xl border border-border/80 bg-card p-2 pl-4 text-left shadow-lg shadow-primary/5 transition focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10">
+              <Textarea
+                ref={textareaRef}
+                value={inputValue}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                placeholder={t.inputPlaceholder}
+                rows={1}
+                className="min-w-0 flex-1 min-h-[2.5rem] max-h-40 resize-none border-0 bg-transparent px-0 py-2 text-sm leading-relaxed shadow-none focus-visible:ring-0"
                 disabled={createConversation.isPending}
-                className="group text-left px-4 py-3 rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm hover:bg-card hover:border-border hover:shadow-sm transition-all text-sm text-foreground/70 hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span className="flex items-start gap-2">
-                  <img src={brandAsset("zei-mark.png")} alt="" className="w-3.5 h-3.5 mt-0.5 shrink-0 object-contain opacity-40 group-hover:opacity-70 transition-opacity" />
-                  <span className="leading-snug">{prompt}</span>
-                </span>
+              />
+              <button type="button" onClick={() => window.dispatchEvent(new Event("zei:open-upload-cv"))} title="Upload CV or academic records" aria-label="Upload academic document" className="composer-tool h-10 w-10 shrink-0 rounded-xl border border-border/60 text-muted-foreground transition hover:border-primary/25 hover:bg-primary/5 hover:text-primary">
+                <Paperclip className="mx-auto h-4 w-4" />
               </button>
-            ))}
+              <button type="button" onClick={handleMicToggle} disabled={isTranscribing || createConversation.isPending} title={isRecording ? t.stop : isTranscribing ? t.loading : t.voice} aria-label={isRecording ? t.stop : t.voice} className={cn("composer-tool h-10 w-10 shrink-0 rounded-xl border transition", isRecording ? "border-red-400/60 bg-red-500/10 text-red-500 animate-pulse" : "border-border/60 text-muted-foreground hover:border-primary/25 hover:bg-primary/5 hover:text-primary")}>
+                {isTranscribing ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : isRecording ? <MicOff className="mx-auto h-4 w-4" /> : <Mic className="mx-auto h-4 w-4" />}
+              </button>
+              <Button type="submit" size="icon" className="workspace-send h-10 w-10 shrink-0 rounded-xl text-white shadow-md shadow-primary/20" disabled={!inputValue.trim() || createConversation.isPending}>
+                {createConversation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="ml-0.5 h-4 w-4" />}
+              </Button>
+            </form>
+            <p className="mt-2 text-[10px] text-muted-foreground">Press Enter to send · Shift + Enter for a new line</p>
           </div>
         </div>
       </div>
@@ -581,6 +648,12 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
         <div className="hidden md:block" />
 
         <div className="flex items-center gap-2">
+          <label className="sr-only" htmlFor="academic-context">Academic level</label>
+          <select id="academic-context" value={academicContext} onChange={(event) => setAcademicContext(event.target.value as AcademicContext)} className="block h-8 w-[82px] sm:w-[104px] rounded-lg border border-border/60 bg-card px-1.5 sm:px-2 text-[10px] sm:text-[11px] font-medium text-foreground/75 outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10">
+            <option value="school">School</option>
+            <option value="college">College</option>
+            <option value="university">University</option>
+          </select>
           {isSpeaking && (
             <button
               onClick={stopSpeaking}
@@ -805,7 +878,7 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
         <div className="max-w-2xl mx-auto">
           <form
             onSubmit={handleSubmit}
-            className="flex items-end gap-2 bg-card/95 backdrop-blur-sm border shadow-md rounded-2xl p-2 pl-4 focus-within:ring-2 ring-primary/20 transition-all focus-within:border-primary/40"
+            className="workspace-compose flex items-end gap-2 bg-card/95 backdrop-blur-sm border shadow-md rounded-2xl p-2 pl-4 focus-within:ring-2 ring-primary/20 transition-all focus-within:border-primary/40"
           >
             <Textarea
               ref={textareaRef}
@@ -814,7 +887,7 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
               onKeyDown={handleKeyDown}
               placeholder={t.inputPlaceholder}
               rows={1}
-              className="border-0 bg-transparent shadow-none focus-visible:ring-0 px-0 py-2 resize-none min-h-[2.5rem] max-h-40 text-sm md:text-base leading-relaxed"
+              className="min-w-0 flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0 px-0 py-2 resize-none min-h-[2.5rem] max-h-40 text-sm md:text-base leading-relaxed"
               disabled={isStreaming}
             />
             <button
@@ -851,7 +924,7 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
             <Button
               type="submit"
               size="icon"
-              className="rounded-xl w-10 h-10 md:w-11 md:h-11 shrink-0 transition-transform active:scale-95"
+              className="workspace-send rounded-xl w-10 h-10 md:w-11 md:h-11 shrink-0 transition-transform active:scale-95 text-white"
               disabled={!inputValue.trim() || isStreaming}
             >
               {isStreaming ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 ml-0.5" />}

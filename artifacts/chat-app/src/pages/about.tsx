@@ -37,7 +37,7 @@ export default function AboutPage() {
         <section className="about-content grid gap-10 border-t border-neutral-200 py-12 sm:grid-cols-2 sm:py-14">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500"><TypeOnceText text="Created by" delay={250} /></p>
-            <h2 className="mt-3 text-xl font-semibold"><TypeOnceText text="Faisal Zahir" delay={450} /></h2>
+            <h2 className="mt-3 text-xl font-semibold"><TypeOnceText text="Faisal Sajjad" delay={450} /></h2>
             <p className="mt-3 text-sm leading-6 text-neutral-600"><TypeOnceText text="Student at Government College Lahore. Studying B.S. English Literature." delay={650} /></p>
             <p className="mt-3 text-sm leading-6 text-neutral-600"><TypeOnceText text="The project represents an independent effort to make educational technology more accessible and meaningful for students." delay={950} /></p>
           </div>

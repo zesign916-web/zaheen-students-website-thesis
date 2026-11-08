@@ -75,7 +75,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-screen bg-background text-foreground overflow-hidden" style={{ height: '100dvh' }}>
+    <div className="ai-workspace flex h-screen bg-background text-foreground overflow-hidden" style={{ height: '100dvh' }}>
       {/* Mobile backdrop */}
       {sidebarOpen && (
         <div
