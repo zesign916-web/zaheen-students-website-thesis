@@ -16,8 +16,13 @@ import HomePage from "@/pages/home";
 import AboutPage from "@/pages/about";
 import { OnboardingOverlay } from "@/components/onboarding-overlay";
 import { Preloader } from "@/components/preloader";
+import { ChatErrorBoundary } from "@/components/chat-error-boundary";
 
 const queryClient = new QueryClient();
+
+function ChatRoute() {
+  return <ChatErrorBoundary><ChatPage /></ChatErrorBoundary>;
+}
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -26,7 +31,7 @@ function AppRoutes() {
       <Switch>
         <Route path="/" component={HomePage} />
         <Route path="/about" component={AboutPage} />
-        <Route path={/^\/ai$/i} component={ChatPage} />
+        <Route path={/^\/ai$/i} component={ChatRoute} />
         <Route path="/questions" component={QuestionsHubPage} />
         <Route path="/questions/:section" component={SectionPage} />
         <Route component={NotFound} />
