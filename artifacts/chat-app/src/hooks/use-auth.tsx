@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         applyUser(storedUser);
       }
     } catch {
-      localStorage.removeItem(STORAGE_KEY);
+      try { localStorage.removeItem(STORAGE_KEY); } catch {}
     }
     setIsLoading(false);
 

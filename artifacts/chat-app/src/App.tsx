@@ -38,7 +38,10 @@ function AppRoutes() {
 function Router() {
   const { user, isLoading } = useAuth();
   const [location] = useLocation();
-  const [onboardingDone, setOnboardingDone] = useState(() => localStorage.getItem("zei_onboarding_complete") === "true");
+  const [onboardingDone, setOnboardingDone] = useState(() => {
+    try { return localStorage.getItem("zei_onboarding_complete") === "true"; }
+    catch { return false; }
+  });
 
   if (location === "/" || location === "/about") {
     return <AppRoutes />;

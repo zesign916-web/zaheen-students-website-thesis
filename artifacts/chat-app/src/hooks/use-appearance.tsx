@@ -20,10 +20,12 @@ const FONT_SIZE_MAP: Record<FontSize, string> = {
 
 export function AppearanceProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
-    return (localStorage.getItem("zei_theme") as Theme) || "light";
+    try { return (localStorage.getItem("zei_theme") as Theme) || "light"; }
+    catch { return "light"; }
   });
   const [fontSize, setFontSizeState] = useState<FontSize>(() => {
-    return (localStorage.getItem("zei_font_size") as FontSize) || "medium";
+    try { return (localStorage.getItem("zei_font_size") as FontSize) || "medium"; }
+    catch { return "medium"; }
   });
 
   const setTheme = (t: Theme) => {
