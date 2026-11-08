@@ -43,31 +43,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const parsed: AuthUser = JSON.parse(stored);
-          applyUser(parsed);
-          try {
-            const res = await fetch("/api/auth/me", {
-              headers: { "x-user-id": parsed.id },
-            });
-            if (res.ok) {
-              const fresh: AuthUser = await res.json();
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
-              applyUser(fresh);
-            }
-          } catch {
-            // Network error — use cached data
-          }
-        }
-      } catch {
-        localStorage.removeItem(STORAGE_KEY);
+    let storedUser: AuthUser | null = null;
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        storedUser = JSON.parse(stored);
+        applyUser(storedUser);
       }
-      setIsLoading(false);
-    };
-    init();
+    } catch {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+    setIsLoading(false);
+
+    if (storedUser) {
+      fetch("/api/auth/me", {
+        headers: { "x-user-id": storedUser.id },
+      }).then(async (res) => {
+        if (!res.ok) return;
+        const fresh: AuthUser = await res.json();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
+        applyUser(fresh);
+      }).catch(() => {
+        // Network error — use cached data
+      });
+    }
   }, []);
 
   const login = (u: AuthUser) => {

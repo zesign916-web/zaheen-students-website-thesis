@@ -8,7 +8,7 @@ export function WebsitePreloader({ onComplete }: { onComplete: () => void }) {
     const timer = window.setTimeout(() => {
       setLeaving(true);
       window.setTimeout(onComplete, 550);
-    }, 5000);
+    }, 600);
     return () => window.clearTimeout(timer);
   }, [onComplete]);
 
