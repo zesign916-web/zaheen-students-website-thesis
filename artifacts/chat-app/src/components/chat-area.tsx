@@ -336,8 +336,8 @@ export function ChatArea({ conversationId, onOpenSidebar, onConversationCreated 
           createConversation.mutate({ data: {} }, {
             onSuccess: (newConv: { id: number }) => {
               queryClient.invalidateQueries({ queryKey: getListOpenaiConversationsQueryKey() });
+              localStorage.setItem("zei_pending_prompt", text.trim());
               onConversationCreated?.(newConv.id);
-              setPendingPrompt(text.trim());
               setInputValue("");
             },
           });
